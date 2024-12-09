@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Caption Generator</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+  <div class="container">
+    <h1>Image Caption Generator</h1>
+    <form id="uploadForm">
+      <input type="file" id="imageInput" accept="image/*" required>
+      <button type="submit">Generate Caption</button>
+    </form>
+    <div class="image-preview" id="imagePreview"></div>
+    <p id="caption"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const imageInput = document.getElementById('imageInput');
+    const captionDisplay = document.getElementById('caption');
+    const imagePreview = document.getElementById('imagePreview');
+
+    // Event listener for displaying the image preview as soon as a file is selected
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      imagePreview.innerHTML = ''; // Clear previous previews
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          imagePreview.innerHTML = `<img src="${reader.result}" alt="Image Preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Event listener for form submission to process the image
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      captionDisplay.textContent = "Processing...";
+      
+      const file = imageInput.files[0];
+      if (!file) {
+        captionDisplay.textContent = "Please select an image.";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const response = await fetch('http://localhost:3000/describe', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate caption.');
+        }
+
+        const data = await response.json();
+        captionDisplay.textContent = `Caption: ${data.caption}`;
+      } catch (error) {
+        captionDisplay.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
