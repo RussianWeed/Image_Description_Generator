@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image Caption Generator</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+  <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
   <div class="container">
@@ -23,7 +23,7 @@
     const captionDisplay = document.getElementById('caption');
     const imagePreview = document.getElementById('imagePreview');
 
-    // Event listener for displaying the image preview as soon as a file is selected
+
     imageInput.addEventListener('change', () => {
       const file = imageInput.files[0];
       imagePreview.innerHTML = ''; // Clear previous previews
@@ -37,7 +37,7 @@
       }
     });
 
-    // Event listener for form submission to process the image
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       captionDisplay.textContent = "Processing...";
