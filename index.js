@@ -8,10 +8,10 @@ require('dotenv').config();
 const app = express();
 const PORT = 3000;
 
-// Serve static files
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Multer setup for file uploads with file filter for images
+
 const upload = multer({
   dest: 'uploads/',
   fileFilter: (req, file, cb) => {
@@ -24,7 +24,7 @@ const upload = multer({
   },
 });
 
-// Route to handle image upload and captioning
+
 app.post('/describe', upload.single('image'), async (req, res) => {
   const filePath = req.file?.path;
 
@@ -68,7 +68,7 @@ app.post('/describe', upload.single('image'), async (req, res) => {
   }
 });
 
-// Start the server
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
